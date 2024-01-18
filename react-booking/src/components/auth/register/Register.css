@@ -1,0 +1,78 @@
+
+.gradient-custom-2 {
+    background: rgb(49 175 17);
+}
+
+.color-green {
+    color: rgb(49 175 17);
+}
+
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
+}
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+}
+.register-square-container {
+    width: 100%;  
+    height: 100%;  
+    position: relative;
+    background-color: #e0e0e0; 
+}
+
+.register-square-content {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.register-square-content::before,
+.register-square-content::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px; 
+    background-color: #ccc; 
+}
+
+.register-square-content::before {
+    transform: rotate(-45deg);
+}
+
+.register-square-content::after { 
+    transform: rotate(45deg);
+}
+.form-control.border-bot {
+    background: none;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid black;
+    border-radius: 0;
+}
+
+.form-control.border-bot:focus {
+  box-shadow: none;
+  outline: none;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 1px solid black;
+}
+
+.b-right::before {
+    content: '';
+    position: absolute;
+    top: 25px;
+    bottom: 25px;
+    right: 0;
+    width: 2px;
+    background-color: #9981813d; 
+}
