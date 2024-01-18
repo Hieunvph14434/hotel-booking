@@ -20,35 +20,38 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // return view('welcome');
-    return view('layouts.cms.master');
+    return redirect()->route('login');
 });
 
-Route::prefix('/users')->controller(UserController::class)->name('users.')->group(function() {
-    Route::get('/', 'index')->name('list');
-    Route::get('/create', 'create')->name('create');
-    Route::post('/create', 'store')->name('store');
-    Route::get('/edit/{id}', 'edit')->name('edit');
-    Route::put('/edit/{id}', 'update')->name('update');
-    Route::delete('/delete/{id}', 'destroy')->name('delete');
-});
+Route::middleware('auth')->group(function(){
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::prefix('/room-types')->controller(CategoryController::class)->name('roomTypes.')->group(function() {
-    Route::get('/', 'index')->name('list');
-    Route::get('/create', 'create')->name('create');
-    Route::post('/create', 'store')->name('store');
-    Route::get('/edit/{id}', 'edit')->name('edit');
-    Route::put('/edit/{id}', 'update')->name('update');
-    Route::delete('/delete/{id}', 'destroy')->name('delete');
-});
+    Route::prefix('/users')->controller(UserController::class)->name('users.')->group(function() {
+        Route::get('/', 'index')->name('list');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/create', 'store')->name('store');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::put('/edit/{id}', 'update')->name('update');
+        Route::delete('/delete/{id}', 'destroy')->name('delete');
+    });
 
-Route::prefix('/rooms')->controller(RoomController::class)->name('rooms.')->group(function() {
-    Route::get('/', 'index')->name('list');
-    Route::get('/create', 'create')->name('create');
-    Route::post('/create', 'store')->name('store');
-    Route::get('/edit/{id}', 'edit')->name('edit');
-    Route::put('/edit/{id}', 'update')->name('update');
-    Route::delete('/delete/{id}', 'destroy')->name('delete');
+    Route::prefix('/room-types')->controller(CategoryController::class)->name('roomTypes.')->group(function() {
+        Route::get('/', 'index')->name('list');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/create', 'store')->name('store');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::put('/edit/{id}', 'update')->name('update');
+        Route::delete('/delete/{id}', 'destroy')->name('delete');
+    });
+
+    Route::prefix('/rooms')->controller(RoomController::class)->name('rooms.')->group(function() {
+        Route::get('/', 'index')->name('list');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/create', 'store')->name('store');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::put('/edit/{id}', 'update')->name('update');
+        Route::delete('/delete/{id}', 'destroy')->name('delete');
+    });
 });
 
 Route::delete('/cloudinary-delete', function(Request $request) {
@@ -78,10 +81,4 @@ Route::delete('/cloudinary-delete', function(Request $request) {
     ]);
 })->name('delete.image.cloudinary');
 
-Route::get('/pageLogin', function(){
-    return view('login');
-});
-
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

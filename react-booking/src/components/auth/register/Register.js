@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import './Register.css';
 import { useNavigate } from 'react-router-dom';
 import { registerApi } from '../../../api/auth';
+import { toast } from 'react-toastify';
+import { toastError, toastSuccess } from '../../../untils/Toast';
 
 function Register() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,11 +25,52 @@ function Register() {
     const handleRegister = async(e) => {
         e.preventDefault();
         setIsSubmitting(true);
+        if(data.password_confirmation !== data.password){
+          toastError("Password confirm not match")
+        }
         try {
             const response = await registerApi(data);
+            if(response.data.status) {
+              setData({
+                name: "",
+                email: "",
+                password: "",
+                password_confirmation: ""
+              });
+              navigate("/login");
+              toastSuccess(response.data.message);
+            }
              
         } catch (error) {
-            
+          let message = "";
+          if (error.response && error.response.data && error.response.data.errors) {
+              const errors = error.response.data.errors;
+              for (const key in errors) {
+                if (errors[key] && errors[key].length > 0) {
+                  const firstError = errors[key][0];
+                  message = firstError;
+                  break; 
+                }
+              }
+            } else {
+              message = error.message;
+            }
+          toast.error(`${message}!`, {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              onOpen: () => {
+                  setIsSubmitting(true);
+              },
+              onClose: () => {
+                  setIsSubmitting(false);
+              }
+          });
         }
     }
   return (
@@ -53,7 +96,7 @@ function Register() {
                       </div>
 
                     <div className="form-outline mb-3">
-                      <input type="password" id="name" value={data.name} name='name' className="form-control border-bot" onChange={(e) => changeData(e)} placeholder='Full name'/>
+                      <input type="text" id="name" value={data.name} name='name' className="form-control border-bot" onChange={(e) => changeData(e)} placeholder='Full name'/>
                     </div>
   
                     <div className="form-outline mb-4">

@@ -21,7 +21,19 @@ class RoomRepositoryImplement extends Eloquent implements RoomRepository{
 
     public function getListRoom($searchData, $limit)
     {
-        return $this->model->query()->with('roomType')
+        $qb = $this->model->query();
+        $price = $searchData['price'] ?? null;
+        $type = $searchData['type'] ?? null;
+        if(!empty($searchData)) {
+            if($price) {
+                $qb = $qb->whereBetween('price', [$price[0], $price[1]]);
+            }
+
+            if($type) {
+                $qb = $qb->where('type', $type);
+            }
+        }
+        return $qb->with('roomType')
         ->whereNull("deleted_at")
         ->orderByDesc("created_at")
         ->paginate($limit);

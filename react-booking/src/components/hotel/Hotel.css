@@ -105,8 +105,11 @@
 }
 
 .item-room .item-content .thumnail img{
+    height: 100%;
     width: 100%;
+    object-fit: cover;
     z-index: 1;
+    border: 1px solid;
 }
 
 .item-room .item-content .content-data {
@@ -130,4 +133,23 @@
     width: 100%;
     justify-content: space-between;
     padding: 0 20px;
+}
+
+img.square-item::before,
+img.square-item::after {
+    content: "";
+    width: 100%;
+    top: 50%;
+    left: 0;
+    height: 2px;
+    background-color: #ccc;
+    position: absolute;
+}
+
+img.square-item::before {
+    transform: rotate(-45deg);
+}
+
+img.square-item::after {
+    transform: rotate(45deg);
 }

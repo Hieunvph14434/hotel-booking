@@ -13,25 +13,8 @@ const toastSuccess = (message) => {
     });
 };
 
-const toastError = (message, loading = null) => {
-    // if(loading) {
-    //     toast.error(`Error: ${message}!`, {
-    //         position: "top-right",
-    //         autoClose: 2000,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "light",
-    //         onOpen: () => {
-    //             setIsSubmitting(true);
-    //         },
-    //         onClose: () => {
-    //             setIsSubmitting(false);
-    //         }
-    //     });
-    // } else {
+const toastError = (message,) => {
+   
         toast.error(`Error: ${message}!`, {
             position: "top-right",
             autoClose: 2000,
@@ -42,7 +25,6 @@ const toastError = (message, loading = null) => {
             progress: undefined,
             theme: "light"
         });
-    // }
 };
 
 export {

@@ -20,8 +20,19 @@ const profileApi = (token) => {
     });
 }
 
+const logoutApi = (token) => {
+    let url = '/api/logout';
+    let headers = {
+        'Authorization': `Bearer ${token}`
+    };
+    return instance.get(url, {
+        headers: headers
+    });
+}
+
 export {
     registerApi,
     loginApi,
-    profileApi
+    profileApi,
+    logoutApi
 }

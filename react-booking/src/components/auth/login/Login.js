@@ -26,18 +26,17 @@ function Login() {
         try {
             setIsSubmitting(true);
             const response = await loginApi(data);
-            console.log("ress", response);
             if(response.data.status) {
                 const token  = response.data.token;
                 const user = await profileApi(token);
                 const expires = new Date();
-                expires.setMinutes(expires.getMinutes() + 1);
+                expires.setMinutes(expires.getMinutes() + 60);
                 Cookies.set('user', JSON.stringify(user.data), {
                     expires: expires
                 })
-                // Cookies.set("token", token, {
-                //     expires: expires
-                // });
+                Cookies.set("token", token, {
+                    expires: expires
+                });
                 setData({
                     email: "",
                     password: ""
@@ -80,7 +79,7 @@ function Login() {
 
   return (
     <>
-        <section className="h-100 gradient-form" style={{backgroundColor: "#eee"}}>
+        <section className="gradient-form" style={{height: "100vh", backgroundColor: "#eee"}}>
         <div className="container py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-xl-10">
@@ -102,12 +101,10 @@ function Login() {
       
                         <div className="form-outline mb-4">
                           <input type="email" id="email" value={data.email} name='email' className="form-control border-bot" onChange={(e) => changeData(e)} placeholder='Email'/>
-                          {/* <label className="form-label" for="email">Email</label> */}
                         </div>
       
                         <div className="form-outline mb-3">
                           <input type="password" id="password" value={data.password} name='password' className="form-control border-bot" onChange={(e) => changeData(e)} placeholder='Password'/>
-                          {/* <label className="form-label" for="password">Password</label> */}
                         </div>
 
                         <div className="text-end mb-4 pb-1">

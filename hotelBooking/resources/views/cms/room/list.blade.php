@@ -22,7 +22,7 @@
             <tbody>
                 @forelse($rooms as $room)
                     <tr class="align-middle">
-                        <td>{{ $loop->index }}</td>
+                        <td>{{ $loop->index + 1 }}</td>
                         <td>{{ $room->name }}</td>
                         <td>
                             @php
@@ -30,7 +30,7 @@
                             @endphp
                             <img src="{{ $roomImage == "default" ? asset($room->image) : getImageUrl($room->image) }}" width="80" alt="image {{$room->name}}">
                         </td>
-                        <td>{{ $room->roomType->name }}</td>
+                        <td>{{ $room->roomType ? $room->roomType->name : "" }}</td>
                         <td>{{ $room->room_no }}</td>
                         <td>{{ $room->price }}</td>
                         <td>{{ $room->acreage }}</td>

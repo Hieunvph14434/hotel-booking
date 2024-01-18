@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
-    <link
-  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"
-  rel="stylesheet"
-/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
    <style>
     .gradient-custom-2 {
     background: rgb(49 175 17);
@@ -73,6 +70,23 @@ border-bottom-right-radius: .3rem;
     width: 2px;
     background-color: #9981813d; 
 }
+input.form-control.border-bot {
+  background: none;
+  outline: none;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 1px solid black;
+}
+
+input.form-control.border-bot:focus {
+  box-shadow: none;
+  outline: none;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 1px solid black;
+}
    </style>
 </head>
 <body>
@@ -97,9 +111,8 @@ border-bottom-right-radius: .3rem;
                             <a type="button" class="color-green">Request account</a>
                           </div>
       
-                        <div class="form-outline mb-{{$errors->has('email') ? 5 : 4 }}">
-                          <input type="email" id="email" class="form-control border-bot @error('email') is-invalid @enderror"/>
-                          <label class="form-label" for="email">Email</label>
+                        <div class="form-outline mb-{{$errors->has('email') ? 3 : 4 }}">
+                          <input type="email" placeholder="Email" id="email" value="{{ old('email') }}" name="email" class="form-control border-bot @error('email') is-invalid @enderror"/>
                         @error('email')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -107,9 +120,8 @@ border-bottom-right-radius: .3rem;
                         @enderror
                         </div>
       
-                        <div class="form-outline mb-{{$errors->has('email') ? 5 : 3}}">
-                          <input type="password" id="password" class="form-control border-bot @error('password') is-invalid @enderror" />
-                          <label class="form-label" for="password">Password</label>
+                        <div class="form-outline mb-{{$errors->has('email') ? 2 : 3}}">
+                          <input type="password" placeholder="Password" id="password" name="password" value="{{ old('password') }}" class="form-control border-bot @error('password') is-invalid @enderror" />
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
