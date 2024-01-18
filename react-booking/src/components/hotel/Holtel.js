@@ -26,9 +26,19 @@ function Holtel() {
     }    
 
     const [showDropdown, setShowDropdown] = useState(false);
+    const [rooms, setRooms] = useState([]);
     const [roomList, setRoomList] = useState([]);
     const [userName, setUserName] = useState('');
     const [token, setToken] = useState('');
+    const [queryParam, setQueryParam] = useState({
+        type: "",
+        priceFrom: "",
+        priceTo: ""
+    });
+
+    const changeData = (e) => {
+        setQueryParam({...queryParam, [e.target.name]: e.target.value});
+    }
 
     const nav = useNavigate();
     
@@ -40,12 +50,33 @@ function Holtel() {
             const user = JSON.parse(Cookies.get('user'));
             setUserName(user.data.name);
         }
-        roomListApi(null).then((res) => {
-            setRoomList(res.data.data.data);
-        }).catch((err) => {
-            console.log("err", err);
+        if(rooms.length > 0) {
+            setRoomList(rooms)
+        }else{
+            roomListApi(null).then((res) => {
+                setRoomList(res.data.data.data);
+            }).catch((err) => {
+                console.log("err", err);
+            });
+        }
+    }, [rooms]);
+
+    // filter
+    const filterRooms = () => {
+        // Filter rooms based on queryParam values
+        const filteredRooms = roomList.filter((item) => {
+            // Add your filtering logic here
+            const typeMatch = item.type.toLowerCase().includes(queryParam.type.toLowerCase());
+            const priceFromMatch = parseFloat(item.price) >= parseFloat(queryParam.priceFrom);
+            const priceToMatch = parseFloat(item.price) <= parseFloat(queryParam.priceTo ? queryParam.priceTo : queryParam.priceFrom);
+
+            return typeMatch && priceFromMatch && priceToMatch;
         });
-    }, []);
+
+        setRooms(filteredRooms);
+        console.log("f", filteredRooms);
+    };
+
 
     // logout 
     const handleLogout = async() => {
@@ -56,6 +87,7 @@ function Holtel() {
         }
         window.location.reload();
     }
+    console.log(queryParam);
   return (
     <>
         <div className='container-fluid'>
@@ -89,17 +121,17 @@ function Holtel() {
                 </h1>
                 <div className='search-data position-absolute custom-position'>
                         <ul className='d-flex justify-content-center list-style-none'>
-                            <li><input type="text" name='type' placeholder='Room type'/></li>
-                            <li><input type="text" name='priceFrom' placeholder='Price from' /></li>
+                            <li><input type="text" name='type' value={queryParam.type} onChange={(e) => changeData(e)} placeholder='Room type'/></li>
+                            <li><input type="text" name='priceFrom' value={queryParam.priceFrom} onChange={(e) => changeData(e)} placeholder='Price from' /></li>
                             {/* <li><input type="text" placeholder='Wed, 10 Jan - Thu, 11 Jan'/></li> */}
-                            <li><input type="text" name='priceTo' placeholder='Price to'/></li>
-                            <li><button>FIND</button></li>
+                            <li><input type="text" name='priceTo' value={queryParam.priceTo} onChange={(e) => changeData(e)} placeholder='Price to'/></li>
+                            <li><button onClick={filterRooms}>FIND</button></li>
                         </ul>
                 </div>
             </div>
             <div className='content'>
                 <div className='page d-flex card-body p-4 ps-3 pe-3 gap-4'>
-                {roomList && roomList.length > 0 && roomList.map((item) => (
+                {roomList && roomList.length > 0 ? roomList.map((item) => (
                     <div className='item-room position-relative' key={item.id}>
                         <div className='item-content'>
                             <div className='thumnail'>
@@ -130,7 +162,7 @@ function Holtel() {
                             </div>
                         </div>
                     </div>
-                ))}
+                )):(<div>No data</div>)}
                     {/* <div className='item-room position-relative'>
                         <div className='item-content'>
                             <div className='thumnail'>
